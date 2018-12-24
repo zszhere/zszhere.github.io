@@ -104,24 +104,25 @@
 
 
 
-  <meta name="description" content="0x01 软硬件使用清单 hackrf one 或者 rtlsdr 等sdr工具 gnuradio-companion python stm32单片机 433MHZ或者其他频率的超外差发射模块  0x02 确定监听频率 拆解遥控器查看RF部分的晶振频率 或者使用gqrx监听空中信号，寻找遥控器按键按下时出现波峰的频率值  0x03 录制信号 文件 rec_sig.grc 为 gnuradio-co">
+  <meta name="description" content="0x01 软硬件使用清单 hackrf one 或者 rtlsdr 等sdr工具 gnuradio-companion python stm32单片机 433MHZ或者其他频率的ASK发射模块  0x02 确定监听频率 拆解遥控器查看RF部分的晶振频率 或者使用gqrx监听空中信号，寻找遥控器按键按下时出现波峰的频率值  0x03 录制信号 文件 rec_sig.grc 为 gnuradio-co">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用SDR对ASK调制信号的监听和重放">
 <meta property="og:url" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/index.html">
 <meta property="og:site_name" content="zszhere">
-<meta property="og:description" content="0x01 软硬件使用清单 hackrf one 或者 rtlsdr 等sdr工具 gnuradio-companion python stm32单片机 433MHZ或者其他频率的超外差发射模块  0x02 确定监听频率 拆解遥控器查看RF部分的晶振频率 或者使用gqrx监听空中信号，寻找遥控器按键按下时出现波峰的频率值  0x03 录制信号 文件 rec_sig.grc 为 gnuradio-co">
+<meta property="og:description" content="0x01 软硬件使用清单 hackrf one 或者 rtlsdr 等sdr工具 gnuradio-companion python stm32单片机 433MHZ或者其他频率的ASK发射模块  0x02 确定监听频率 拆解遥控器查看RF部分的晶振频率 或者使用gqrx监听空中信号，寻找遥控器按键按下时出现波峰的频率值  0x03 录制信号 文件 rec_sig.grc 为 gnuradio-co">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-23-51.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-18-12.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-19-42.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-27-55.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-28-28.png">
+<meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-25-00-54-03.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-31-06.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-47-54.png">
-<meta property="og:updated_time" content="2018-12-24T14:25:12.000Z">
+<meta property="og:updated_time" content="2018-12-24T17:29:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用SDR对ASK调制信号的监听和重放">
-<meta name="twitter:description" content="0x01 软硬件使用清单 hackrf one 或者 rtlsdr 等sdr工具 gnuradio-companion python stm32单片机 433MHZ或者其他频率的超外差发射模块  0x02 确定监听频率 拆解遥控器查看RF部分的晶振频率 或者使用gqrx监听空中信号，寻找遥控器按键按下时出现波峰的频率值  0x03 录制信号 文件 rec_sig.grc 为 gnuradio-co">
+<meta name="twitter:description" content="0x01 软硬件使用清单 hackrf one 或者 rtlsdr 等sdr工具 gnuradio-companion python stm32单片机 433MHZ或者其他频率的ASK发射模块  0x02 确定监听频率 拆解遥控器查看RF部分的晶振频率 或者使用gqrx监听空中信号，寻找遥控器按键按下时出现波峰的频率值  0x03 录制信号 文件 rec_sig.grc 为 gnuradio-co">
 <meta name="twitter:image" content="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-23-51.png">
 
 
@@ -350,12 +351,24 @@
                 
               
 
-              <time title="创建时间：2018-12-24 22:07:40 / 修改时间：22:25:12" itemprop="dateCreated datePublished" datetime="2018-12-24T22:07:40+08:00">2018-12-24</time>
+              <time title="创建时间：2018-12-24 22:07:40" itemprop="dateCreated datePublished" datetime="2018-12-24T22:07:40+08:00">2018-12-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-25 01:29:37" itemprop="dateModified" datetime="2018-12-25T01:29:37+08:00">2018-12-25</time>
               
             
           </span>
@@ -393,7 +406,7 @@
 <li>gnuradio-companion</li>
 <li>python</li>
 <li>stm32单片机</li>
-<li>433MHZ或者其他频率的超外差发射模块</li>
+<li>433MHZ或者其他频率的ASK发射模块</li>
 </ul>
 <h1 id="0x02-确定监听频率"><a href="#0x02-确定监听频率" class="headerlink" title="0x02 确定监听频率"></a>0x02 确定监听频率</h1><ul>
 <li>拆解遥控器查看RF部分的晶振频率</li>
@@ -413,14 +426,19 @@
 <h1 id="0x05-解码信号"><a href="#0x05-解码信号" class="headerlink" title="0x05 解码信号"></a>0x05 解码信号</h1><ul>
 <li><p>解调出来的文件使用xxd打开，形如 <code>0027ecd0: 0000 0000 0000 0000 0000 00ff ffff ffff  ................</code>序列，其中00代表0，ff代表1，该序列代表0000000000011111的序列。可以根据文件中0或者1出现的次数，结合采样率和波形图来分析原始数据，0或者1出现的次数*采样周期等于该信号持续出现的时间。</p>
 </li>
-<li><p>目前接触到两种编码方式，第一种调制方式属于时长编码，非归零编码方法。每个高电平时间单位为400us，代表一个1。则800us高电平代表11，1200us高电平代表111，同样的低电平时长代表对应的0，以此类推。第二种调制方式属于曼彻斯特编码，归零编码方法，每个时间片单位为200us，200us高400us低代表1，400us高200us低代表0，如图可分析出调制的数据序列。</p>
+<li><p>目前接触到三种编码方式：</p>
+<ol>
+<li><p>第一种调制方式属于时长编码，非归零编码方法。每个高电平时间单位为400us，代表一个1。则800us高电平代表11，1200us高电平代表111，同样的低电平时长代表对应的0，以此类推。第一种编码方式，在小区车道门禁中常见：<img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-27-55.png" alt="image-20181224202755132"></p>
 </li>
-<li><p>第一种编码方式，在小区车道门禁中常见：<img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-27-55.png" alt="image-20181224202755132"></p>
+<li><p>第二种调制方式属于曼彻斯特编码，归零编码方法，每个时间片单位为200us，200us高400us低代表1，400us高200us低代表0。<img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-28-28.png" alt="image-20181224202828315"></p>
 </li>
-<li><p>第二种编码方式，固定码遥控芯片PT2262或EV1527：</p>
-<p><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-28-28.png" alt="image-20181224202828315"></p>
+<li><p>第三种编码方式，固定码遥控芯片PT2262或EV1527，数据编码时序图见datasheet：<br><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-25-00-54-03.png" alt="image-2018-12-25-00-54-03"></p>
 </li>
-<li><p>文件 <code>get_sig_time_data.py</code> 为第二种编码方式的解码程序，解码数据如下：</p>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>文件 <code>get_sig_time_data.py</code> 为第三种编码方式的解码程序，解码数据如下：</p>
 </li>
 <li><p><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-31-06.png" alt="2018-12-24 19.31.06"></p>
 </li>
@@ -429,7 +447,7 @@
 </ul>
 <h1 id="0x06-信号重放"><a href="#0x06-信号重放" class="headerlink" title="0x06 信号重放"></a>0x06 信号重放</h1><ul>
 <li>为了设备的便携性，重放装置的RF部分使用超再生模块，某宝4块一对收发都有了，注意选对频率。控制部分使用Arduino或者其他单片机。测试过树莓派，由于ubuntu系统操作GPIO在us级别延迟抖动比较大，因此没有采用树莓派。</li>
-<li>控制GPIO为高低电平即可发送信号。</li>
+<li>控制GPIO为高低电平，并按照编码规则进行延时即可即可发送信号。</li>
 <li><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-47-54.png" alt="2018-12-24 20.47.54"></li>
 <li>本测试仅为安全研究，重放代码不再放出。</li>
 <li>已知存在安全隐患的设备：<ul>
