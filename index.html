@@ -299,6 +299,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zszhere.github.io/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="nothing">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zszhere">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/" class="post-title-link" itemprop="https://zszhere.github.io/index.html">硬核HACK-从蓝牙音箱的固件提取和修改说起</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-25 17:26:37" itemprop="dateCreated datePublished" datetime="2018-12-25T17:26:37+08:00">2018-12-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-26 01:20:44" itemprop="dateModified" datetime="2018-12-26T01:20:44+08:00">2018-12-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="0x01-起因"><a href="#0x01-起因" class="headerlink" title="0x01 起因"></a>0x01 起因</h1><p>手里闲置了几个音箱单元，但是没有功放。在淘宝上买了两个蓝牙功放模块，集成蓝牙3.0，模块使用D类放大器，驱动效率高音质也可以，放在两个卧室里用。但是遇到了两个小问题：</p>
+<ul>
+<li>蓝牙设备名称无法修改，手机里显示两个同样名字的蓝牙设备，无法区别连接哪个</li>
+<li>开机时和蓝牙连接时会分别播放一段十秒左右的大音量提示音乐，这个真的没法忍，太吵了，只是静静地做一个蓝牙音箱不好么……</li>
+</ul>
+<h1 id="0x02-拆机分析和提取固件"><a href="#0x02-拆机分析和提取固件" class="headerlink" title="0x02 拆机分析和提取固件"></a>0x02 拆机分析和提取固件</h1><ul>
+<li>既然无法接受，那就自己动手。拆开看看，拆机过程不表，直接说PCB。布线规范，基本能推测到每个部分的功能：</li>
+</ul>
+<p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181225-233856.png" alt="Jietu20181225-233856"></p>
+<ul>
+<li><p>嵌入式设备逆向过程中比较重要的是分析各模块的功能，一般是根据芯片的丝印代码和封装来查找芯片的型号，确定了型号后结合各模块布局基本能分析出每一块的功能。常用的芯片的丝印代码和封装一般一看都知道，例如常用的电源芯片7805、lm1117丝印N05A封装SOT-223，总线电平转换485、2232。但是遇到小众芯片时，就需要查询丝印代码了。给出一个查询网站<a href="http://www.alldatasheet.com，结合这个和百度谷歌可以查到大部分电子元件的datasheet。也会遇到一些保密性强的设备，芯片丝印被打磨掉了，防止被逆向分析，当然这是一场矛和盾的博弈，也是有办法分析的，以后开一篇文章(mark，标记下以后填坑)专门说这个，快跑题了。" target="_blank" rel="noopener">http://www.alldatasheet.com，结合这个和百度谷歌可以查到大部分电子元件的datasheet。也会遇到一些保密性强的设备，芯片丝印被打磨掉了，防止被逆向分析，当然这是一场矛和盾的博弈，也是有办法分析的，以后开一篇文章(mark，标记下以后填坑)专门说这个，快跑题了。</a></p>
+</li>
+<li><p>但是，显然这里我被打脸了，这个蓝牙SOC查询不到型号和datasheet。解释下可能的原因，据我了解到的是，部分射频芯片包括蓝牙芯片在内，芯片厂家不公开发布开发资料，只有合作的研发厂家签署NDA保密协议以后，芯片厂家才会把datasheet和开发demo提供给研发厂家。因此这类芯片的可参考资料很少。说白了是厂家为了控制市场，这方面国内的芯片厂商还要加油，国内的乐鑫出的ESP8266这个WIFI SOC就是正面典型，国内外知名，资料丰富，又跑题了……</p>
+</li>
+<li><p>小型嵌入式系统中固件数据一般保存在ROM(read only memory)中，保存方式一般分为两种：</p>
+<ul>
+<li>主控SOC片内存储</li>
+<li>主控SOC片内存储加上外部存储</li>
+</ul>
+</li>
+<li><p>存储数据的介质一般有两种：</p>
+<ul>
+<li><p>EEPROM(Electrically Erasable Programmable Read-Only Memory)</p>
+</li>
+<li><p>Flash，其中又分为nor falsh和nand flash</p>
+<blockquote>
+<p>EEPROM可以可以随机访问和修改任何一个字节。<br>而 flash属于广义的EEPROM，因为它也是电擦除的rom。但是为了区别于一般的按字节为单位的擦写的EEPROM，我们都叫它flash。flash做的改进就是擦除时不再以字节为单位，而是以块为单位，一次简化了电路，数据密度更高，降低了成本。上M的rom一般都是flash。<br>nor flash数据线和地址线分开，可以实现ram一样的随机寻址功能，可以读取任何一个字节。但是擦除仍要按块来擦。<br>nand flash同样是按块擦除，但是数据线和地址线复用，不能利用地址线随机寻址。读取只能按页来读取。<br>因为nor flash可以进行字节寻址，所以程序可以在nor flash中运行。嵌入式系统多用一个小容量的nor flash存储引导代码，用一个大容量的nand flash存放文件系统和内核。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>这里的sop8封装芯片丝印型号为<code>p25q40h</code>，典型的flash芯片。一般的sop8封装芯片，丝印为24xxx的是eeprom，丝印为25xxx的为flash。</p>
+</li>
+</ul>
+<p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-002737.png" alt="Jietu20181226-002737"></p>
+<ul>
+<li>分析这么多了该提取固件了，片内固件的提取一般需要芯片专用的编程器，arm主控一般是JTAG设备，而且还要看是否设置了熔丝位防止读写；这次不知道主控型号，显然只能先提取片外flash的固件了。关于固件的提取后面会专门开一篇(mark，标记下以后填坑)文章。我是用设备是CH341芯片的编程器，兼容大部分24和25芯片。使用mac的同学注意下，我测试的是这个编程器不兼容在mac的vmware虚拟机下使用，无法读取和写入，原因未知。最后是用另一条win系统主机来读写的。编程器如下：</li>
+</ul>
+<p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-004255.png" alt="Jietu20181226-004255"></p>
+<ul>
+<li>编程器的使用一般需要拆下来芯片，把flash插入到编程底座来读写，这样需要拆芯片显然比较麻烦。我是用了上面的夹子，叫芯片夹或者在线编程夹，可以不拆芯片的情况下直接将触点固定在芯片上对芯片操作，这个方法比较tricky and dirty。大部分情况下是可以直接用的，当然这里我又被打脸了，测试以后发现读取不出来。推测原因可能是蓝牙SOC操作flash使用的是推挽工作模式(PP，pull up and pull down)模式的GPIO，在主板上电SOC读取完flash后把总线电平拉低，导致在线编程夹无法拉高总线电平，导致无法读取数据。说真的这是第一次遇到在线方式无法使用的。关于GPIO工作模式和信号电平以后专门开一篇来讲(mark，标记下以后填坑)。</li>
+<li>那接下来就需要拆芯片了，flash芯片SOP8封装有8个引脚，使用电烙铁拆芯片显然是不现实的，无法同时对8个引脚加热。这就需要另外一个设备了，热风枪。关于硬件研究中使用设备和工具会后专门开一篇(mark，标记下以后填坑)。热风枪一般使用300度就可以了，等管脚焊锡融化后即可拆下芯片，高温，注意用镊子，别问我为啥知道，烫一次就记住了。设备如下：</li>
+</ul>
+<p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011026.png" alt="Jietu20181226-011026"></p>
+<ul>
+<li>拆下芯片后夹上编程夹：</li>
+</ul>
+<p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011710.png" alt="Jietu20181226-011710"></p>
+<ul>
+<li>打开程序即可读取到flash中的二进制文件，保存为f900s.bin后面接着分析：</li>
+</ul>
+<p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011916.png" alt="Jietu20181226-011916"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zszhere.github.io/2018/12/24/使用SDR对ASK调制信号的监听和重放/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -361,7 +566,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-25 01:37:21" itemprop="dateModified" datetime="2018-12-25T01:37:21+08:00">2018-12-25</time>
+                <time title="修改时间：2018-12-25 23:12:46" itemprop="dateModified" datetime="2018-12-25T23:12:46+08:00">2018-12-25</time>
               
             
           </span>
@@ -408,18 +613,18 @@
 <li>或者使用gqrx监听空中信号，寻找遥控器按键按下时出现波峰的频率值</li>
 </ul>
 <h1 id="0x03-录制信号"><a href="#0x03-录制信号" class="headerlink" title="0x03 录制信号"></a>0x03 录制信号</h1><ul>
-<li>文件 <code>rec_sig.grc</code> 为 gnuradio-companion 使用的信号录制模块，用来录制原始信号的数据并存入硬盘，原始数据比较大，录制后可以通过audacity打开来简单分析，或者在下一步解调分析。</li>
+<li>文件 <code>rec_sig.grc</code> 为 gnuradio-companion 使用的信号录制模块，用来录制原始信号的数据并存入硬盘，原始IQ通道数据占用磁盘空间比较大，录制后可以通过audacity打开来简单分析，或者在下一步解调分析。</li>
 <li><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-23-51.png" alt="2018-12-24 19.23.51"></li>
 </ul>
 <h1 id="0x04-解调信号"><a href="#0x04-解调信号" class="headerlink" title="0x04 解调信号"></a>0x04 解调信号</h1><ul>
 <li>文件 <code>mk_sig.grc</code> 用来使用上一步录制的信号进行ASK信号的解调。</li>
-<li>如果不需要录制信号的话，可以不进行上一步操作，在这里直接disable掉file source模块并enable osmocom source，直接对SDR采集的数据进行解调，并生成解调后的数据文件。</li>
-<li>这个流程图中使用AM Demod对信号解调，使用Add Count和Multiply Count和Threshold对解调后的信号归一化处理，解调后的数据文件为二进制数据，只包含0x00和0xFF两种字节。其中0x00字节代表原始信号的0，0xFF代表原始信号的1。0x00和0xFF出现的次数代表原始信号持续的时间，这个时间可以通过出现次数*采样周期来计算出来。</li>
+<li>如果不需要录制信号的话，可以不进行上一步操作，在这里直接disable掉file source模块并enable osmocom source，直接对SDR采集的数据进行解调，并生成解调后的数据文件，这里生成的文件存储的是解调后的数据，数据量很小。</li>
+<li>流程图中使用AM Demod对信号解调，使用Add Count和Multiply Count和Threshold对解调后的信号归一化处理，解调后的数据文件为二进制数据，只包含0x00和0xFF两种字节。其中0x00字节代表原始信号的0，0xFF代表原始信号的1。0x00和0xFF出现的次数代表原始信号持续的时间，这个时间可以通过出现次数*采样周期来计算出来。</li>
 <li><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-18-12.png" alt="2018-12-24 19.18.12"></li>
 <li><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-19-42.png" alt="2018-12-24 19.19.42"></li>
 </ul>
 <h1 id="0x05-解码信号"><a href="#0x05-解码信号" class="headerlink" title="0x05 解码信号"></a>0x05 解码信号</h1><ul>
-<li><p>解调出来的文件使用xxd打开，形如 <code>0027ecd0: 0000 0000 0000 0000 0000 00ff ffff ffff  ................</code>序列，其中00代表0，ff代表1，该序列代表0000000000011111的序列。可以根据文件中0或者1出现的次数，结合采样率和波形图来分析原始数据，0或者1出现的次数*采样周期等于该信号持续出现的时间。</p>
+<li><p>解调出来的文件使用xxd打开，形如 <code>0027ecd0: 0000 0000 0000 0000 0000 00ff ffff ffff  ................</code>序列，其中00代表0，ff代表1，该序列代表0000000000011111的序列。可以根据文件中0或者1出现的次数，结合采样率和波形图来分析原始数据。也可以使用audacity打开来分析，比较直观。0或者1连续出现的次数x采样周期x分频系数20 等于该信号持续出现的时间，分频系数在<code>mk_sig.grc</code>文件中由<code>dec_num</code>变量设置，目的是减小生成文件的大小。</p>
 </li>
 <li><p>目前接触到三种编码方式：</p>
 <ol>
@@ -427,13 +632,15 @@
 </li>
 <li><p>第二种调制方式属于曼彻斯特编码，归零编码方法，每个时间片单位为200us，200us高400us低代表1，400us高200us低代表0。<img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-20-28-28.png" alt="image-20181224202828315"></p>
 </li>
-<li><p>第三种编码方式，固定码遥控芯片PT2262或EV1527，数据编码时序图见datasheet：<br><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-25-00-54-03.png" alt="image-2018-12-25-00-54-03"></p>
+<li><p>第三种编码方式，固定码遥控芯片PT2262或EV1527，详细的数据编码时序图见datasheet，audacity分析如下：<br><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-25-00-54-03.png" alt="image-2018-12-25-00-54-03"></p>
 </li>
 </ol>
 </li>
 </ul>
 <ul>
-<li><p>文件 <code>get_sig_time_data.py</code> 为第三种编码方式的解码程序。需要注意的是，由于不同遥控器中使用的阻容振荡器参数不一，导致码元周期也不一致，程序中使用time参数进行调整。解码数据如下：</p>
+<li><p>文件 <code>get_sig_time_data.py</code> 为第三种编码方式的解码程序。需要注意的是，由于不同遥控器中使用的阻容振荡器参数不一，导致码元周期也不一致，程序中使用time参数进行调整。</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python2</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">from sys import argv</span><br><span class="line"></span><br><span class="line">#ori time seq</span><br><span class="line">ori_data = []</span><br><span class="line">#all 01 seq</span><br><span class="line">data = []</span><br><span class="line">#time div</span><br><span class="line">time = 50</span><br><span class="line"></span><br><span class="line">def decode_sig(sig):</span><br><span class="line">    #last status</span><br><span class="line">    prv = 0</span><br><span class="line">    #cnt time</span><br><span class="line">    cnt = 0</span><br><span class="line">    #decode per 300us</span><br><span class="line">    decode = &apos;&apos;</span><br><span class="line">    #ori status</span><br><span class="line">    ori_seq = []</span><br><span class="line">    #this status</span><br><span class="line">    seq = []</span><br><span class="line">    </span><br><span class="line">    fin = open(sig,&apos;r&apos;)</span><br><span class="line">    for i in fin.read():</span><br><span class="line">        if ord(i) == prv:</span><br><span class="line">            cnt += 1</span><br><span class="line">        else:</span><br><span class="line">            tmp = int(cnt/time)+int(2*cnt/time)%2            </span><br><span class="line">            if prv/255 == 1:</span><br><span class="line">                decode = tmp * &apos;1&apos;</span><br><span class="line">            else:</span><br><span class="line">                decode = tmp * &apos;0&apos; </span><br><span class="line">            #normal 2000     </span><br><span class="line">            #if cnt &gt; 2000:</span><br><span class="line">            #jpzx 800</span><br><span class="line">            if cnt &gt; 800:</span><br><span class="line">                #print &apos;seq is %s&apos;%(seq)           </span><br><span class="line">                #print &apos;++mark+++++++++++++++++++++++++++++++++++++++++++&apos;          </span><br><span class="line">                ori_data.append(ori_seq)</span><br><span class="line">                data.append(seq)  </span><br><span class="line">                ori_seq = []                          </span><br><span class="line">                seq = []</span><br><span class="line">            else:</span><br><span class="line">                ori_seq.append(cnt)</span><br><span class="line">                seq.append(decode) </span><br><span class="line">                #print &apos;%2s for %5s *10us for %5s *300us decode is %10s&apos;%(prv/255,cnt,tmp,seq[-1])</span><br><span class="line">            prv = ord(i)</span><br><span class="line">            cnt = 0</span><br><span class="line">    fin.close()</span><br><span class="line"></span><br><span class="line">def decode_str(strs):</span><br><span class="line">    data = &apos;&apos;</span><br><span class="line">    ptr = 0</span><br><span class="line">    start = &apos;10&apos;*212</span><br><span class="line">    #gap   = &apos;0000000000000000000000000000000000000000&apos;</span><br><span class="line">    #gap   = &apos;0000000000000000000000000000000000000&apos;</span><br><span class="line">    while ptr &lt; len(strs):    </span><br><span class="line">        if strs[ptr:ptr+len(start)] == start:</span><br><span class="line">            data += &apos;\nstart_seq\n&apos;</span><br><span class="line">            ptr += len(start)</span><br><span class="line">        else:</span><br><span class="line">            data += strs[ptr]</span><br><span class="line">            ptr += 1</span><br><span class="line">    return data</span><br><span class="line"></span><br><span class="line">def decode_2262(strs):</span><br><span class="line">    data = &apos;&apos;</span><br><span class="line">    ptr = 0</span><br><span class="line">    Hpin = &apos;10001000&apos;</span><br><span class="line">    Lpin = &apos;11101110&apos;</span><br><span class="line">    Fpin = &apos;10001110&apos;</span><br><span class="line">    while ptr &lt; len(strs):    </span><br><span class="line">        if strs[ptr:ptr+8] == Hpin:</span><br><span class="line">            data += &apos;1&apos;</span><br><span class="line">            ptr += 8</span><br><span class="line">        elif strs[ptr:ptr+8] == Lpin:</span><br><span class="line">            data += &apos;0&apos;</span><br><span class="line">            ptr += 8</span><br><span class="line">        elif strs[ptr:ptr+8] == Fpin:</span><br><span class="line">            data += &apos;F&apos;</span><br><span class="line">            ptr += 8</span><br><span class="line">        else:</span><br><span class="line">            data += &apos;e&apos;</span><br><span class="line">            ptr += 1</span><br><span class="line">    return data</span><br><span class="line">   </span><br><span class="line">decode_sig(argv[1])</span><br><span class="line">print len(ori_data)</span><br><span class="line">print len(data)</span><br><span class="line">for i in xrange(len(data)):</span><br><span class="line">    print &apos;++mark+++++++++++++++++++++++++++++++++++++++++++&apos;</span><br><span class="line">    print &apos;--time len is:%s\n%s&apos;%(len(ori_data[i]),repr(ori_data[i]))</span><br><span class="line">    print &apos;--data len is:%s\n%s&apos;%(len(data[i]),&apos;&apos;.join(data[i]))</span><br><span class="line">    #print &apos;--dec str is:\n&apos;+decode_str(strs)+&apos;\n&apos;</span><br><span class="line">    print &apos;--dec str is:\n&apos;+decode_2262(&apos;&apos;.join(data[i]))</span><br><span class="line">    print &apos;\n&apos;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><img src="/2018/12/24/使用SDR对ASK调制信号的监听和重放/2018-12-24-19-31-06.png" alt="2018-12-24 19.31.06"></p>
 </li>
@@ -538,7 +745,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
