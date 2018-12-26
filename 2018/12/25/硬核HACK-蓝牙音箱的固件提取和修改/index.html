@@ -117,7 +117,7 @@
 <meta property="og:image" content="https://zszhere.github.io/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011026.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011710.png">
 <meta property="og:image" content="https://zszhere.github.io/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011916.png">
-<meta property="og:updated_time" content="2018-12-26T02:08:06.000Z">
+<meta property="og:updated_time" content="2018-12-26T03:38:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬核HACK-从蓝牙音箱的固件提取和修改说起">
 <meta name="twitter:description" content="0x01 起因手里闲置了几个音箱单元，但是没有功放。在淘宝上买了两个蓝牙功放模块，集成蓝牙3.0，模块使用D类放大器，驱动效率高音质也可以，放在两个卧室里用。但是遇到了两个小问题：  蓝牙设备名称无法修改，手机里显示两个同样名字的蓝牙设备，无法区别连接哪个 开机时和蓝牙连接时会分别播放一段十秒左右的大音量提示音乐，这个真的没法忍，太吵了，只是静静地做一个蓝牙音箱不好么……  0x02 拆机分析和提">
@@ -366,7 +366,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-26 10:08:06" itemprop="dateModified" datetime="2018-12-26T10:08:06+08:00">2018-12-26</time>
+                <time title="修改时间：2018-12-26 11:38:14" itemprop="dateModified" datetime="2018-12-26T11:38:14+08:00">2018-12-26</time>
               
             
           </span>
@@ -437,7 +437,7 @@
 </ul>
 <p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181225-233856.png" alt="Jietu20181225-233856"></p>
 <ul>
-<li><p>嵌入式设备逆向过程中比较重要的是分析各模块的功能，一般是根据芯片的丝印代码和封装来查找芯片的型号，确定了型号后结合各模块布局基本能分析出每一块的功能。常用的芯片的丝印代码和封装一般一看都知道，例如常用的电源芯片7805、lm1117丝印N05A封装SOT-223，总线电平转换485、2232。但是遇到小众芯片时，就需要查询丝印代码了。给出一个查询网站<a href="http://www.alldatasheet.com，结合这个和百度谷歌可以查到大部分电子元件的datasheet。也会遇到一些保密性强的设备，芯片丝印被打磨掉了，防止被逆向分析，当然这是一场矛和盾的博弈，也是有办法分析的，以后开一篇文章(mark，标记下以后填坑)专门说这个，快跑题了。" target="_blank" rel="noopener">http://www.alldatasheet.com，结合这个和百度谷歌可以查到大部分电子元件的datasheet。也会遇到一些保密性强的设备，芯片丝印被打磨掉了，防止被逆向分析，当然这是一场矛和盾的博弈，也是有办法分析的，以后开一篇文章(mark，标记下以后填坑)专门说这个，快跑题了。</a></p>
+<li><p>嵌入式设备逆向过程中比较重要的是分析各模块的功能，一般是根据芯片的丝印代码和封装来查找芯片的型号，确定了型号后结合各模块布局基本能分析出每一块的功能。常用的芯片的丝印代码和封装一般一看都知道，例如常用的电源芯片7805、lm1117丝印N05A封装SOT-223，总线电平转换485、2232。但是遇到小众芯片时，就需要查询丝印代码了。给出一个查询网站  <a href="http://www.alldatasheet.com" target="_blank" rel="noopener">http://www.alldatasheet.com</a>  ，结合这个和百度谷歌可以查到大部分电子元件的datasheet。也会遇到一些保密性强的设备，芯片丝印被打磨掉了，防止被逆向分析，当然这是一场矛和盾的博弈，也是有办法分析的，以后开一篇文章(mark，标记下以后填坑)专门说这个，快跑题了。</p>
 </li>
 <li><p>但是，显然这里我被打脸了，这个蓝牙SOC查询不到型号和datasheet。解释下可能的原因，据我了解到的是，部分射频芯片包括蓝牙芯片在内，芯片厂家不公开发布开发资料，只有合作的研发厂家签署NDA保密协议以后，芯片厂家才会把datasheet和开发demo提供给研发厂家。因此这类芯片的可参考资料很少。说白了是厂家为了控制市场，这方面国内的芯片厂商还要加油，国内的乐鑫出的ESP8266这个WIFI SOC就是正面典型，国内外知名，资料丰富，又跑题了……</p>
 </li>
