@@ -361,7 +361,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-26 01:20:44" itemprop="dateModified" datetime="2018-12-26T01:20:44+08:00">2018-12-26</time>
+                <time title="修改时间：2018-12-26 10:08:06" itemprop="dateModified" datetime="2018-12-26T10:08:06+08:00">2018-12-26</time>
               
             
           </span>
@@ -377,6 +377,34 @@
 
           
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
           
 
           
@@ -418,26 +446,27 @@
 </li>
 <li><p>存储数据的介质一般有两种：</p>
 <ul>
-<li><p>EEPROM(Electrically Erasable Programmable Read-Only Memory)</p>
+<li>EEPROM(Electrically Erasable Programmable Read-Only Memory)</li>
+<li>Flash，其中又分为nor falsh和nand flash</li>
+</ul>
 </li>
-<li><p>Flash，其中又分为nor falsh和nand flash</p>
+</ul>
 <blockquote>
 <p>EEPROM可以可以随机访问和修改任何一个字节。<br>而 flash属于广义的EEPROM，因为它也是电擦除的rom。但是为了区别于一般的按字节为单位的擦写的EEPROM，我们都叫它flash。flash做的改进就是擦除时不再以字节为单位，而是以块为单位，一次简化了电路，数据密度更高，降低了成本。上M的rom一般都是flash。<br>nor flash数据线和地址线分开，可以实现ram一样的随机寻址功能，可以读取任何一个字节。但是擦除仍要按块来擦。<br>nand flash同样是按块擦除，但是数据线和地址线复用，不能利用地址线随机寻址。读取只能按页来读取。<br>因为nor flash可以进行字节寻址，所以程序可以在nor flash中运行。嵌入式系统多用一个小容量的nor flash存储引导代码，用一个大容量的nand flash存放文件系统和内核。</p>
 </blockquote>
-</li>
-</ul>
-</li>
-<li><p>这里的sop8封装芯片丝印型号为<code>p25q40h</code>，典型的flash芯片。一般的sop8封装芯片，丝印为24xxx的是eeprom，丝印为25xxx的为flash。</p>
-</li>
+<ul>
+<li>这里的sop8封装芯片丝印型号为<code>p25q40h</code>，典型的flash芯片。一般的sop8封装芯片，丝印为24xxx的是eeprom，丝印为25xxx的为flash。</li>
 </ul>
 <p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-002737.png" alt="Jietu20181226-002737"></p>
 <ul>
-<li>分析这么多了该提取固件了，片内固件的提取一般需要芯片专用的编程器，arm主控一般是JTAG设备，而且还要看是否设置了熔丝位防止读写；这次不知道主控型号，显然只能先提取片外flash的固件了。关于固件的提取后面会专门开一篇(mark，标记下以后填坑)文章。我是用设备是CH341芯片的编程器，兼容大部分24和25芯片。使用mac的同学注意下，我测试的是这个编程器不兼容在mac的vmware虚拟机下使用，无法读取和写入，原因未知。最后是用另一条win系统主机来读写的。编程器如下：</li>
+<li>分析这么多了该提取固件了，片内固件的提取一般需要芯片专用的编程器，arm主控一般是JTAG设备，而且还要看是否设置了熔丝位防止读写；这次不知道主控型号，显然只能先提取片外flash的固件了。关于固件的提取后面会专门开一篇(mark，标记下以后填坑)文章。我是用设备是CH341芯片的编程器，兼容大部分24和25芯片。使用mac的同学注意下，我测试的是这个编程器不兼容在mac的vmware虚拟机下使用，无法读取和写入，原因未知。最后是用另一台win系统主机来读写的。编程器如下：</li>
 </ul>
 <p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-004255.png" alt="Jietu20181226-004255"></p>
 <ul>
-<li>编程器的使用一般需要拆下来芯片，把flash插入到编程底座来读写，这样需要拆芯片显然比较麻烦。我是用了上面的夹子，叫芯片夹或者在线编程夹，可以不拆芯片的情况下直接将触点固定在芯片上对芯片操作，这个方法比较tricky and dirty。大部分情况下是可以直接用的，当然这里我又被打脸了，测试以后发现读取不出来。推测原因可能是蓝牙SOC操作flash使用的是推挽工作模式(PP，pull up and pull down)模式的GPIO，在主板上电SOC读取完flash后把总线电平拉低，导致在线编程夹无法拉高总线电平，导致无法读取数据。说真的这是第一次遇到在线方式无法使用的。关于GPIO工作模式和信号电平以后专门开一篇来讲(mark，标记下以后填坑)。</li>
-<li>那接下来就需要拆芯片了，flash芯片SOP8封装有8个引脚，使用电烙铁拆芯片显然是不现实的，无法同时对8个引脚加热。这就需要另外一个设备了，热风枪。关于硬件研究中使用设备和工具会后专门开一篇(mark，标记下以后填坑)。热风枪一般使用300度就可以了，等管脚焊锡融化后即可拆下芯片，高温，注意用镊子，别问我为啥知道，烫一次就记住了。设备如下：</li>
+<li><p>编程器的使用一般需要拆下来芯片，把flash插入到编程底座来读写，这样需要拆芯片显然比较麻烦。我是用了上面的夹子，叫芯片夹或者在线编程夹，可以不拆芯片的情况下直接将触点固定在芯片上对芯片操作，这个方法比较tricky and dirty。大部分情况下是可以直接用的，当然这里我又被打脸了，测试以后发现读取不出来。推测原因可能是蓝牙SOC操作flash使用的是推挽工作模式(PP，push &amp; pull)模式的GPIO，在主板上电SOC读取完flash后把总线电平拉低，导致在线编程夹无法拉高总线电平，导致无法读取数据。说真的这是第一次遇到在线方式无法使用的。关于GPIO工作模式和信号电平以后专门开一篇来讲(mark，标记下以后填坑)。</p>
+</li>
+<li><p>那接下来就需要拆芯片了，flash芯片SOP8封装有8个引脚，使用电烙铁拆芯片显然是不现实的，无法同时对8个引脚加热。这就需要另外一个设备了，热风枪。关于硬件研究中使用设备和工具会后专门开一篇(mark，标记下以后填坑)。热风枪一般使用300度就可以了，等管脚焊锡融化后即可拆下芯片，高温，注意用镊子，别问我为啥知道，烫一次就记住了。设备如下：</p>
+</li>
 </ul>
 <p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011026.png" alt="Jietu20181226-011026"></p>
 <ul>
@@ -445,7 +474,7 @@
 </ul>
 <p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011710.png" alt="Jietu20181226-011710"></p>
 <ul>
-<li>打开程序即可读取到flash中的二进制文件，保存为f900s.bin后面接着分析：</li>
+<li>打开程序配置下芯片参数，即可读取到flash中的二进制文件，保存为f900s.bin后面接着分析：</li>
 </ul>
 <p><img src="/2018/12/25/硬核HACK-蓝牙音箱的固件提取和修改/Jietu20181226-011916.png" alt="Jietu20181226-011916"></p>
 
@@ -582,6 +611,34 @@
 
           
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.6k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
           
 
           
@@ -795,7 +852,21 @@
   <span class="author" itemprop="copyrightHolder"></span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">7k</span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">6 分钟</span>
   
 </div>
 
